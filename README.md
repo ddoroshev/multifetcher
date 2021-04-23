@@ -18,8 +18,8 @@ JSON body:
 
 ```json
 [
-    {"method": "GET", "url": "https://google.com"}
-    {"method": "GET", "headers": {"Cookie": "foo=bar"}, "url": "https://yandex.ru"}
+    {"method": "GET", "url": "https://google.com"},
+    {"method": "GET", "headers": {"Cookie": "foo=bar"}, "url": "https://yandex.ru"},
     {"method": "GET", "headers": {"Foo": "Bar"}, "url": "https://httpbin.org/json"}
 ]
 ```
