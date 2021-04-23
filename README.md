@@ -17,33 +17,14 @@ POST https://multiserver.ssl2.ru/
 JSON body:
 
 ```json
-{
-    "method": "GET",
-    "ordered": true,
-    "urls": [
-        "https://google.com",
-        "https://yandex.ru",
-        "https://httpbin.org/json"
-    ]
-}
+[
+    {"method": "GET", "url": "https://google.com"}
+    {"method": "GET", "headers": {"Cookie": "foo=bar"}, "url": "https://yandex.ru"}
+    {"method": "GET", "headers": {"Foo": "Bar"}, "url": "https://httpbin.org/json"}
+]
 ```
 
-Response contains of a unique ID that should be used to retrieve the result of the request.
-
-```
-719a6635-a90e-4e82-9e02-ddd7cb5a3cbf
-```
-
-#### Subscribe to responses
-
-When in progress of fetching requested URLs, you can subscribe to the stream
-of responses (newline separated JSON-list):
-
-```
-GET https://multiserver.ssl2.ru/<response-id>
-```
-
-Response content example:
+The response is a stream of newline separated JSON-list. Example:
 
 ```json
 {"url": "https://google.com", "response": "<!doctype html><html itemscope=\"\"<...>"}
