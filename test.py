@@ -80,7 +80,7 @@ TEST_PARAMS = [
 
 
 def run():
-    resp = requests.post("http://localhost:8000/", json=TEST_PARAMS, stream=True)
+    resp = requests.post("http://localhost:8080/", json=TEST_PARAMS, stream=True)
     for line in resp.iter_lines():
         print("###", json.loads(line.decode()))
 
