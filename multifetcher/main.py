@@ -25,7 +25,7 @@ async def make_request(params, *, response):
         ) as resp:
             resp_data = await resp.text()
             result["response"] = resp_data
-    except TimeoutError as e:
+    except TimeoutError:
         result.update(
             {
                 "response": "",
