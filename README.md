@@ -6,28 +6,47 @@ Multifetcher is a simple web-based server that allows parallel requests to exter
 
 ## Usage
 
-### API
+### Build and run
 
-#### Send request
+```bash
+docker build -t multifetcher .
+docker run -d -p 8000:8000 multifetcher
+```
+
+### Send requests
 
 ```
-POST https://multiserver.ssl2.ru/
+POST http://localhost:8000/
 ```
 
 JSON body:
 
 ```json
 [
-    {"method": "GET", "url": "https://google.com"},
-    {"method": "GET", "headers": {"Cookie": "foo=bar"}, "url": "https://yandex.ru"},
-    {"method": "GET", "headers": {"Foo": "Bar"}, "url": "https://httpbin.org/json"}
+    {
+        "id": "1",
+        "method": "GET",
+        "url": "https://google.com"
+    },
+    {
+        "id": "2",
+        "method": "GET",
+        "headers": {"Cookie": "foo=bar"},
+        "url": "https://yandex.ru"
+    },
+    {
+        "id": "3",
+        "method": "GET",
+        "headers": {"Foo": "Bar"},
+        "url": "https://httpbin.org/json"
+    }
 ]
 ```
 
 The response is a stream of newline separated JSON-list. Example:
 
 ```json
-{"url": "https://google.com", "response": "<!doctype html><html itemscope=\"\"<...>"}
-{"url": "https://yandex.ru", "response": "<!DOCTYPE html><html class=\"i-ua_js_<...>"}
-{"url": "https://httpbin.org/json", "response": "{\n  \"slideshow\": {\n<...>"}
+{"id": "1", "url": "https://google.com", "response": "<!doctype html><html itemscope=\"\"<...>"}
+{"id": "2", "url": "https://yandex.ru", "response": "<!DOCTYPE html><html class=\"i-ua_js_<...>"}
+{"id": "3", "url": "https://httpbin.org/json", "response": "{\n  \"slideshow\": {\n<...>"}
 ```

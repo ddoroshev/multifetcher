@@ -1,12 +1,17 @@
-FROM python:3.11.4
+FROM ghcr.io/ddoroshev/pybase:compile-3.11.4 as compile
 
-RUN pip install poetry
+COPY poetry.lock pyproject.toml /app/
 
-COPY pyproject.toml poetry.lock /usr/src/app/
+RUN poetry install --no-root --only main
 
-WORKDIR /usr/src/app
+COPY . /app/
 
-RUN poetry install --no-root --no-dev
 
-# TODO(dima) Add port
-CMD ["python", "-m", "multifetcher.main"]
+FROM ghcr.io/ddoroshev/pybase:runtime-3.11.4 as runtime
+
+COPY --from=compile /venv /venv
+COPY --from=compile /app /app
+
+EXPOSE 8000
+
+CMD ["gunicorn", "multifetcher.main:app", "--bind", ":8000", "--worker-class", "aiohttp.GunicornUVLoopWebWorker", "--access-logfile", "-", "--error-logfile", "-"]

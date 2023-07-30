@@ -8,6 +8,8 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.11"
 aiohttp = {extras = ["speedups"], version = "^3.8.5"}
+uvloop = "^0.17.0"
+gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
 aiohttp-devtools = "^1.1"

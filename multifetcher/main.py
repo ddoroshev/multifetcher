@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 import json
 from uuid import uuid4
@@ -48,8 +49,13 @@ async def requester(request):
     return response
 
 
+parser = argparse.ArgumentParser(description="Multifetcher")
+parser.add_argument('--host', default="127.0.0.1")
+parser.add_argument('--port', default="8000")
+
 app = web.Application()
 app.add_routes([web.post("/", requester)])
 
 if __name__ == "__main__":
-    web.run_app(app)
+    args = parser.parse_args()
+    web.run_app(app, host=args.host, port=args.port)
