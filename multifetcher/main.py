@@ -1,19 +1,29 @@
 import json
 import asyncio
-from aiohttp import web, client
+from aiohttp import web, client, ClientTimeout
 
 
 async def make_request(params, *, response):
-    async with client.request(
-        params["method"],
-        params["url"],
-        headers=params.get("headers"),
-        data=params.get("data"),
-        json=params.get("json"),
-    ) as resp:
-        resp_data = await resp.text()
-        result = {"url": params["url"], "response": resp_data}
-        await response.write((json.dumps(result) + "\n").encode())
+    timeout = ClientTimeout(total=2)
+    result = {"url": params["url"]}
+    try:
+        async with client.request(
+            params["method"],
+            params["url"],
+            headers=params.get("headers"),
+            data=params.get("data"),
+            json=params.get("json"),
+            timeout=timeout,
+        ) as resp:
+            resp_data = await resp.text()
+            result["response"] = resp_data
+    except TimeoutError as e:
+        result.update({
+            "response": "",
+            "error": "Timeout",
+        })
+
+    await response.write((json.dumps(result) + "\n").encode())
 
 
 async def requester(request):
