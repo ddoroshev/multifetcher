@@ -1,11 +1,19 @@
 import json
 import asyncio
+from uuid import uuid4
 from aiohttp import web, client, ClientTimeout
 
 
+DEFAULT_TIMEOUT = 2
+MAX_TIMEOUT = 10
+
+
 async def make_request(params, *, response):
-    timeout = ClientTimeout(total=2)
-    result = {"url": params["url"]}
+    timeout = max(params.get("timeout", DEFAULT_TIMEOUT), MAX_TIMEOUT)
+    result = {
+        "id": params.get("id", str(uuid4())),
+        "url": params["url"],
+    }
     try:
         async with client.request(
             params["method"],
@@ -13,15 +21,17 @@ async def make_request(params, *, response):
             headers=params.get("headers"),
             data=params.get("data"),
             json=params.get("json"),
-            timeout=timeout,
+            timeout=ClientTimeout(total=timeout),
         ) as resp:
             resp_data = await resp.text()
             result["response"] = resp_data
     except TimeoutError as e:
-        result.update({
-            "response": "",
-            "error": "Timeout",
-        })
+        result.update(
+            {
+                "response": "",
+                "error": "Timeout",
+            }
+        )
 
     await response.write((json.dumps(result) + "\n").encode())
 
