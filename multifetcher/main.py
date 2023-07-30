@@ -1,8 +1,8 @@
-import json
 import asyncio
+import json
 from uuid import uuid4
-from aiohttp import web, client, ClientTimeout
 
+from aiohttp import ClientTimeout, client, web
 
 DEFAULT_TIMEOUT = 2
 MAX_TIMEOUT = 10
