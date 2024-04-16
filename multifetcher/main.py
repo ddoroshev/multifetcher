@@ -50,8 +50,8 @@ async def requester(request):
 
 
 parser = argparse.ArgumentParser(description="Multifetcher")
-parser.add_argument('--host', default="127.0.0.1")
-parser.add_argument('--port', default="8000")
+parser.add_argument("--host", default="127.0.0.1")
+parser.add_argument("--port", default="8000")
 
 app = web.Application()
 app.add_routes([web.post("/", requester)])

@@ -1,6 +1,7 @@
-import requests
 import json
 from pprint import pprint
+
+import requests
 
 TEST_PARAMS = [
     {"id": "first_one", "method": "GET", "url": "https://google.com", "timeout": 1},
