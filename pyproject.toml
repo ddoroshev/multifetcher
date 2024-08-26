@@ -9,7 +9,7 @@ license = "MIT"
 python = "^3.12"
 aiohttp = {extras = ["speedups"], version = "^3.9.4"}
 uvloop = "^0.20.0"
-gunicorn = "^22.0.0"
+gunicorn = "^23.0.0"
 
 [tool.poetry.group.dev.dependencies]
 aiohttp-devtools = "^1.1"
