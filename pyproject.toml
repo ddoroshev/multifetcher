@@ -14,7 +14,7 @@ gunicorn = "^23.0.0"
 [tool.poetry.group.dev.dependencies]
 aiohttp-devtools = "^1.1"
 requests = "^2.31.0"
-black = "^24.4.0"
+black = "^25.0.0"
 ruff = "^0.9.0"
 
 [tool.ruff.lint]
